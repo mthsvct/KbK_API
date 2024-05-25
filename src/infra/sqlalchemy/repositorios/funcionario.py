@@ -3,8 +3,8 @@ from .repo import Repo
 from .utils import verificarObjeto
 from src import schemas as sc
 from src.infra.sqlalchemy import models as md
-from src.infra.providers import hash_provider
-
+from src.infra.providers import hash_provider, token_provider
+from fastapi import HTTPException
 
 
 class Funcionario(Repo):
@@ -24,4 +24,20 @@ class Funcionario(Repo):
             obj.senha = hash_provider.gerar_hash(obj.senha)
             f = super().criar(obj)
         return f
+    
+
+    def login(self, email:str, senha:str):
+        f = self.obterEmail(email)
+
+        if f is None:
+            raise HTTPException(status_code=404, detail="Funcionário não encontrado!")
+        
+        if not hash_provider.verificar_hash(senha, f.senha):
+            raise HTTPException(status_code=401, detail="Senha incorreta!")
+
+        token = token_provider.criar_access_token(
+            {"sub": f.email}
+        )
+        return sc.LoginSucesso(token=token, funcionario=f)
+
 

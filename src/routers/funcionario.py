@@ -39,4 +39,7 @@ def deleteFuncionario(id:int, db:Session=Depends(get_db)):
     return rp.Funcionario(db).remover(id)
 
 
+@router.post("/login", status_code=200)
+def loginFuncionario(login:sc.LoginData, db:Session=Depends(get_db)):
+    return rp.Funcionario(db).login(login.email, login.senha)
 
