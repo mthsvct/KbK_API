@@ -11,7 +11,7 @@ class Servico(BaseModel):
     valorAPartir: float
     duracao: int
 
-    salao_id : int
+    salao_id : Optional[int] = 2
 
     class Config:
         orm_mode = True
