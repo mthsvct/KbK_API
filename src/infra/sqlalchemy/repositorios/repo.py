@@ -1,5 +1,7 @@
 from sqlalchemy.orm import Session
 from sqlalchemy import update
+from .utils import verificarObjeto
+# Fazer um decorator para verificar se o objeto é None
 
 class Repo():
 
@@ -18,7 +20,6 @@ class Repo():
     def criar(self, obj):
         # Cria um objeto no banco de dados
         db_obj = self.tabela(**self.dicio(obj))
-        print('\n\n', db_obj, '\n\n')
         self.db.add(db_obj)
         self.salvar(db_obj)
         return db_obj
@@ -27,10 +28,12 @@ class Repo():
         # Lista todos os objetos da tabela
         return self.db.query(self.tabela).all()
     
+    @verificarObjeto
     def obter(self, id):
-        # Obtem um objeto da tabela
+        # Obtem um objeto da tabela pelo o ID
         return self.db.query(self.tabela).filter(self.tabela.id == id).first()
-    
+        
+
     def remover(self, id):
         # Remove um objeto da tabela
         obj = self.obter(id) # Pode retornar um objeto ou None
@@ -49,4 +52,7 @@ class Repo():
     
     def obterPrimeiro(self):
         return self.db.query(self.tabela).first()
+
+
+
         

@@ -1,0 +1,42 @@
+from fastapi import APIRouter, status, Depends, HTTPException
+from sqlalchemy.orm import Session
+from src.infra.sqlalchemy.config.database import get_db
+from src import schemas as sc
+from typing import List, Union
+from src.infra.sqlalchemy import repositorios as rp
+
+router = APIRouter()
+
+
+# --------------------------------- ROTAS --------------------------------- #
+
+
+@router.get("/all", response_model=List[sc.FuncionarioSimples])
+def listarFuncionarios(db:Session=Depends(get_db)):
+    return rp.Funcionario(db).listar()
+
+
+@router.get("/{id}", response_model=sc.Funcionario)
+def obterFuncionario(id:int, db:Session=Depends(get_db)):
+    f = rp.Funcionario(db).obter(id)
+    if f is None:
+        raise HTTPException(status_code=404, detail="Funcionário não encontrado!")
+    return f
+
+
+@router.post("/cadastrar", status_code=201, response_model=sc.FuncionarioSimples)
+def criarFuncionario(funcionario:sc.Funcionario, db:Session=Depends(get_db)):
+    return rp.Funcionario(db).criar(funcionario)
+
+
+@router.put("/{id}", response_model=sc.Funcionario)
+def editarFuncionario(id:int, funcionario:sc.Funcionario, db:Session=Depends(get_db)):
+    return rp.Funcionario(db).editar(id, funcionario)
+
+
+@router.delete("/{id}", response_model=sc.Funcionario)
+def deleteFuncionario(id:int, db:Session=Depends(get_db)):
+    return rp.Funcionario(db).remover(id)
+
+
+
