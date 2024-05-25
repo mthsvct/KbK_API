@@ -38,6 +38,7 @@ class Funcionario(Repo):
         token = token_provider.criar_access_token(
             {"sub": f.email}
         )
+        
         return sc.LoginSucesso(token=token, funcionario=f)
 
 
