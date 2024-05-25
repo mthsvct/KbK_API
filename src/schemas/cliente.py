@@ -21,11 +21,11 @@ class Cliente(BaseModel):
     id: Optional[int]
     
     nome: str
-    dataNascimento: str
+    dataNascimento: Optional[str]
 
-    telefone: str
-    email: str
-    instagram: str
+    telefone: Optional[str]
+    email: Optional[str]
+    instagram: Optional[str]
 
     salao_id : int = 2
     endereco_id : Optional[int]

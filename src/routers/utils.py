@@ -13,8 +13,6 @@ def obter_usuario_logado(
         session: Session = Depends(get_db)
     ):
 
-    print("Passou aqui")
-
     exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Token inválido!"
@@ -22,7 +20,6 @@ def obter_usuario_logado(
 
     try:
         email = token_provider.verificar_access_token(token)
-        print("Email:", email)
     except JWTError:
         raise exception
     

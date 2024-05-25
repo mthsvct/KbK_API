@@ -9,18 +9,19 @@ class Repo():
         self.db = db
         self.tabela = tabela
 
-    def dicio(self, obj):
-        return obj.dict()
+    def dicio(self, obj, ex=False):
+        # Transforma um objeto em um dicionário
+        return obj.dict() if not ex else obj.dict(exclude_unset=True)
 
     def salvar(self, db_obj):
         # Salva as alterações no banco de dados
+        self.db.add(db_obj)
         self.db.commit()
         self.db.refresh(db_obj)
 
-    def criar(self, obj):
+    def criar(self, obj, ex=False):
         # Cria um objeto no banco de dados
-        db_obj = self.tabela(**self.dicio(obj))
-        self.db.add(db_obj)
+        db_obj = self.tabela(**self.dicio(obj, ex=ex))
         self.salvar(db_obj)
         return db_obj
 
@@ -32,7 +33,11 @@ class Repo():
     def obter(self, id):
         # Obtem um objeto da tabela pelo o ID
         return self.db.query(self.tabela).filter(self.tabela.id == id).first()
-        
+    
+    @verificarObjeto
+    def obterEmail(self, email):
+        # Obtem um objeto da tabela pelo email
+        return self.db.query(self.tabela).filter(self.tabela.email == email).first()    
 
     def remover(self, id):
         # Remove um objeto da tabela
@@ -41,6 +46,7 @@ class Repo():
         return obj
     
     def editar(self, id, obj):
+        # Edita um objeto da tabela
         update_stmt = update(self.tabela).where(
             self.tabela.id == id
         ).values(
@@ -51,6 +57,7 @@ class Repo():
         return self.obter(id)
     
     def obterPrimeiro(self):
+        # Obtem o primeiro objeto da tabela
         return self.db.query(self.tabela).first()
 
 

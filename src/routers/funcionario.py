@@ -1,9 +1,9 @@
-from fastapi import APIRouter, status, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from .utils import obter_usuario_logado
 from src.infra.sqlalchemy.config.database import get_db
 from src import schemas as sc
-from typing import List, Union
+from typing import List
 from src.infra.sqlalchemy import repositorios as rp
 
 router = APIRouter()
@@ -27,6 +27,7 @@ def obterFuncionario(id:int, db:Session=Depends(get_db)):
 
 @router.post("/cadastrar", status_code=201, response_model=sc.FuncionarioSimples)
 def criarFuncionario(funcionario:sc.Funcionario, db:Session=Depends(get_db)):
+    print("Passou aqui: f = ", funcionario)
     return rp.Funcionario(db).criar(funcionario)
 
 
@@ -43,6 +44,7 @@ def deleteFuncionario(id:int, db:Session=Depends(get_db)):
 @router.post("/login", status_code=200)
 def loginFuncionario(login:sc.LoginData, db:Session=Depends(get_db)):
     return rp.Funcionario(db).login(login.email, login.senha)
+
 
 @router.get("/me", response_model=sc.FuncionarioSimples)
 def me(funcionario:sc.Funcionario=Depends(obter_usuario_logado)):
