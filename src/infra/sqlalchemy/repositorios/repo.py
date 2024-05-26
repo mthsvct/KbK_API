@@ -41,7 +41,8 @@ class Repo():
 
     def remover(self, id):
         # Remove um objeto da tabela
-        if (obj:=self.obter(id)) is None:
+        obj=self.obter(id)
+        if obj is None:
             raise HTTPException(status_code=404, detail="Objeto não encontrado!")
         self.db.delete(obj)
         self.db.commit()

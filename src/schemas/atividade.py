@@ -2,7 +2,7 @@ from pydantic import BaseModel
 from typing import ForwardRef, Optional, List
 from datetime import datetime
 
-from .funcionario import Funcionario
+from .funcionario import Funcionario, FuncionarioSimples
 from .servico import Servico
 
 
@@ -14,8 +14,8 @@ class Atividade(BaseModel):
     comanda_id : int
     
     funcionario_id : int
-    funcionario : Optional[Funcionario]
-
+    funcionario : Optional[FuncionarioSimples]
+    
     servico_id : int
     servico : Optional[Servico]
 

@@ -8,8 +8,7 @@ from src.infra.sqlalchemy import repositorios as rp
 
 router = APIRouter()
 
-
-
+# --------------------------------- ROTAS --------------------------------- #
 
 @router.get("/", response_model=sc.Salao)
 def listarSalao(

@@ -21,6 +21,7 @@ class Comanda(Repo):
             cliente_id=obj.cliente_id
         )    
 
+
     def criar(self, obj: sc.Comanda, ex=False):
         # Buscar o cliente
         cliente = Cliente(self.db).obter(obj.cliente_id)

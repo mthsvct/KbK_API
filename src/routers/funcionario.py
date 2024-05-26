@@ -8,9 +8,7 @@ from src.infra.sqlalchemy import repositorios as rp
 
 router = APIRouter()
 
-
 # --------------------------------- ROTAS --------------------------------- #
-
 
 @router.get("/all", response_model=List[sc.FuncionarioSimples])
 def listarFuncionarios(db:Session=Depends(get_db)):
