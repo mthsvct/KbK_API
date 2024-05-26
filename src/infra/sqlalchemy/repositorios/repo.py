@@ -1,7 +1,7 @@
+from fastapi import HTTPException
 from sqlalchemy.orm import Session
 from sqlalchemy import update
 from .utils import verificarObjeto
-# Fazer um decorator para verificar se o objeto é None
 
 class Repo():
 
@@ -41,25 +41,21 @@ class Repo():
 
     def remover(self, id):
         # Remove um objeto da tabela
-        obj = self.obter(id) # Pode retornar um objeto ou None
-        if obj: self.db.delete(obj); self.db.commit()
+        if (obj:=self.obter(id)) is None:
+            raise HTTPException(status_code=404, detail="Objeto não encontrado!")
+        self.db.delete(obj)
+        self.db.commit()
         return obj
     
     def editar(self, id, obj):
         # Edita um objeto da tabela
-        update_stmt = update(self.tabela).where(
-            self.tabela.id == id
-        ).values(
-            **obj.dict(exclude_unset=True)
-        )
+        if (instancia:=self.obter(id)) is None:
+            raise HTTPException(status_code=404, detail="Objeto não encontrado!")
+        update_stmt = update(self.tabela).where(self.tabela.id == id).values(**obj.dict(exclude_unset=True))
         self.db.execute(update_stmt)
         self.db.commit()
-        return self.obter(id)
+        return instancia
     
     def obterPrimeiro(self):
         # Obtem o primeiro objeto da tabela
         return self.db.query(self.tabela).first()
-
-
-
-        

@@ -1,6 +1,7 @@
 from .atividade import *
 from .cliente import *
 from .comanda import *
+from .comCliente import *
 from .endereco import *
 from .funcionario import *
 from .pagamento import *

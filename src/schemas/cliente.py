@@ -2,18 +2,23 @@ from pydantic import BaseModel
 from typing import ForwardRef, Optional, List
 
 from .endereco import EnderecoSimples
-from .comanda import ComandaSimples
-
+# from .comanda import ComandaSimples, Comanda
 
 
 class ClienteSimples(BaseModel):
         
     id : Optional[int]
     nome : str
+    
+    telefone : Optional[str]
     email : str
+    instagram : Optional[str]
+    dataNascimento : Optional[str]
 
     class Config:
         orm_mode = True
+
+
 
 
 class Cliente(BaseModel):
@@ -29,9 +34,9 @@ class Cliente(BaseModel):
 
     salao_id : int = 2
     endereco_id : Optional[int]
-    
-    comanda: Optional[List[ComandaSimples]]
+
     endereco: Optional[EnderecoSimples]
 
     class Config:
         orm_mode = True
+

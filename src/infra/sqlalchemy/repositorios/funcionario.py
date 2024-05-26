@@ -23,17 +23,14 @@ class Funcionario(Repo):
 
     def login(self, email:str, senha:str):
         f = self.obterEmail(email)
-
+        
         if f is None:
             raise HTTPException(status_code=404, detail="Funcionário não encontrado!")
         
         if not hash_provider.verificar_hash(senha, f.senha):
             raise HTTPException(status_code=401, detail="Senha incorreta!")
-
-        token = token_provider.criar_access_token(
-            {"sub": f.email}
-        )
-
+        
+        token = token_provider.criar_access_token({"sub": f.email})
         return sc.LoginSucesso(token=token, funcionario=f)
 
 

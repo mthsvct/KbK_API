@@ -7,30 +7,29 @@ from .pagamento import Pagamento
 
 
 class ComandaSimples(BaseModel):
-    
+
     id : Optional[int]
     data : datetime
-    statusPagamento: str
-    valorTotal: float = 0.0
-
+    statusPagamento: Optional[str] = "PENDENTE" # PENDENTE, PAGO, PARCIAL
+    valorTotal: Optional[float] = 0.0
+    cliente_id : Optional[int]
+    
     class Config:
         orm_mode = True
 
 
 class Comanda(BaseModel):
+
     id : Optional[int]
     data : datetime
-    statusPagamento: str
-    valorTotal: float = 0.0
-
-    cliente_id : int
-
-    atividade: Optional[List[Atividade]]
-    pagamento: Optional[Pagamento]  
-
+    dataFechamento: Optional[datetime] = None
+    statusPagamento: Optional[str] = "PENDENTE" # PENDENTE, PAGO, PARCIAL
+    valorTotal: Optional[float] = 0.0
+    cliente_id : Optional[int]
+    atividade: Optional[List[Atividade]] = []
+    pagamento: Optional[List[Pagamento]] = []
+    
     class Config:
         orm_mode = True
-
-
 
 
