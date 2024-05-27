@@ -2,7 +2,7 @@ from pydantic import BaseModel
 from typing import ForwardRef, Optional, List
 from datetime import datetime
 
-from .atividade import Atividade
+from .atividade import Atividade, AtividadeSimples
 from .pagamento import Pagamento
 
 
@@ -13,6 +13,9 @@ class ComandaSimples(BaseModel):
     statusPagamento: Optional[str] = "PENDENTE" # PENDENTE, PAGO, PARCIAL
     valorTotal: Optional[float] = 0.0
     cliente_id : Optional[int]
+    
+    pago: Optional[float] = 0.0 # Valor pago
+    faltante: Optional[float] = 0.0 # Valor pago
     
     class Config:
         orm_mode = True
@@ -26,7 +29,11 @@ class Comanda(BaseModel):
     statusPagamento: Optional[str] = "PENDENTE" # PENDENTE, PAGO, PARCIAL
     valorTotal: Optional[float] = 0.0
     cliente_id : Optional[int]
-    atividade: Optional[List[Atividade]] = []
+    
+    pago: Optional[float] = 0.0 # Valor pago
+    faltante: Optional[float] = 0.0 # Valor pago
+
+    atividade: Optional[List[AtividadeSimples]] = []
     pagamento: Optional[List[Pagamento]] = []
     
     class Config:

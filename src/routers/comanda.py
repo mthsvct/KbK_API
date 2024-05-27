@@ -33,7 +33,11 @@ def editarComanda(id:int, c:sc.Comanda, f:sc.Funcionario=Depends(obter_usuario_l
 
 
 @router.delete("/{id}", response_model=sc.Comanda)
-def deleteComanda(id:int, f:sc.Funcionario=Depends(obter_usuario_logado), db:Session=Depends(get_db)):
+def deleteComanda(
+        id:int, 
+        f:sc.Funcionario=Depends(obter_usuario_logado), 
+        db:Session=Depends(get_db)
+    ):
     return rp.Comanda(db).remover(id)
 
 

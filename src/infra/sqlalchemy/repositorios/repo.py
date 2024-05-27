@@ -55,7 +55,7 @@ class Repo():
         update_stmt = update(self.tabela).where(self.tabela.id == id).values(**obj.dict(exclude_unset=True))
         self.db.execute(update_stmt)
         self.db.commit()
-        return instancia
+        return self.obter(id)
     
     def obterPrimeiro(self):
         # Obtem o primeiro objeto da tabela

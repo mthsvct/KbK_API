@@ -11,7 +11,7 @@ router = APIRouter()
 
 # --------------------------------- ROTAS --------------------------------- #
 
-@router.get("/all", response_model=List[sc.Atividade])
+@router.get("/all", response_model=List[sc.AtividadeSimples])
 def listarAtividades(
         funcionario:sc.Funcionario=Depends(obter_usuario_logado),
         db:Session=Depends(get_db)

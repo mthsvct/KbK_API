@@ -6,19 +6,27 @@ from .funcionario import Funcionario, FuncionarioSimples
 from .servico import Servico
 
 
+
+class AtividadeSimples(BaseModel):
+
+    id : Optional[int]
+    preco : float
+    comanda_id : int
+    funcionario_id : int
+    servico_id : int
+    
+    class Config: orm_mode = True
+
+
 class Atividade(BaseModel):
 
     id : Optional[int]
     preco : float
-    
     comanda_id : int
-    
     funcionario_id : int
     funcionario : Optional[FuncionarioSimples]
-    
     servico_id : int
     servico : Optional[Servico]
 
-    class Config:
-        orm_mode = True
+    class Config: orm_mode = True
     
