@@ -5,4 +5,5 @@ from .endereco import *
 from .funcionario import *
 from .pagamento import *
 from .salao import *
+from .salario import *
 from .servico import *

@@ -28,6 +28,7 @@ class Funcionario(Base):
     salao = relationship('Salao', back_populates='funcionario')
 
     atividade = relationship('Atividade', back_populates='funcionario')
+    salario = relationship('Salario', back_populates='funcionario')
 
     def __repr__(self):
         return f"<Funcionario: {self.nome}>"

@@ -8,6 +8,7 @@ from src.routers.servico import router as rt_servico
 from src.routers.comanda import router as rt_comandas
 from src.routers.atividade import router as rt_atividades
 from src.routers.pagamento import router as rt_pagamentos
+from src.routers.salario import router as rt_salarios
 
 app = FastAPI()
 origins = ["*"]
@@ -27,3 +28,4 @@ app.include_router(rt_servico, prefix="/servicos")
 app.include_router(rt_comandas, prefix="/comandas")
 app.include_router(rt_atividades, prefix="/atividades")
 app.include_router(rt_pagamentos, prefix="/pagamentos")
+app.include_router(rt_salarios, prefix="/salarios")
