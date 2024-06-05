@@ -1,3 +1,4 @@
+from datetime import datetime
 from pydantic import BaseModel
 from typing import ForwardRef, Optional, List
 
@@ -12,7 +13,7 @@ class ClienteSimples(BaseModel):
     telefone : Optional[str]
     email : str
     instagram : Optional[str]
-    dataNascimento : Optional[str]
+    dataNascimento : Optional[datetime]
 
     class Config:
         orm_mode = True
@@ -22,7 +23,7 @@ class Cliente(BaseModel):
 
     id: Optional[int]
     nome: str
-    dataNascimento: Optional[str]
+    dataNascimento: Optional[datetime]
     telefone: Optional[str]
     email: Optional[str]
     instagram: Optional[str]

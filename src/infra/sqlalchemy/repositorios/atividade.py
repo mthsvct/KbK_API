@@ -6,6 +6,7 @@ from src import schemas as sc
 from src.infra.sqlalchemy import models as md
 from .comanda import Comanda
 
+
 class Atividade(Repo):
 
     def __init__(self, db: Session) -> None:

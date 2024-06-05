@@ -9,6 +9,7 @@ from src.routers.comanda import router as rt_comandas
 from src.routers.atividade import router as rt_atividades
 from src.routers.pagamento import router as rt_pagamentos
 from src.routers.salario import router as rt_salarios
+import random
 
 app = FastAPI()
 origins = ["*"]
@@ -21,6 +22,11 @@ app.add_middleware(
 )
 
 # ---------------------------- ROTAS ---------------------------- #
+@app.get("/hello")
+async def hello():
+    return {"message": "Hello World!", "num": random.randint(1,100)}
+
+
 app.include_router(rt_clientes, prefix="/clientes")
 app.include_router(rt_funcionario, prefix="/funcionarios")
 app.include_router(rt_salao, prefix="/salao")

@@ -26,7 +26,7 @@ class Funcionario(Repo):
         
         if f is None:
             raise HTTPException(status_code=404, detail="Funcionário não encontrado!")
-        
+
         if not hash_provider.verificar_hash(senha, f.senha):
             raise HTTPException(status_code=401, detail="Senha incorreta!")
         

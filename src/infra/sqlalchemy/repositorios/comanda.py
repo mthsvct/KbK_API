@@ -3,7 +3,9 @@ from src.infra.sqlalchemy.repositorios.repo import Repo
 from src import schemas as sc
 from src.infra.sqlalchemy import models as md
 from fastapi import HTTPException
+from datetime import datetime
 
+from .utils import buscaObjeto, obterObjeto
 from .cliente import Cliente
 
 class Comanda(Repo):
@@ -11,11 +13,29 @@ class Comanda(Repo):
     def __init__(self, db: Session) -> None:
         super().__init__(db, md.Comanda)
 
+
+    def abertas(self):
+        novo = []
+        for c in self.listar():
+            if c.dataFechamento is None:
+                cliente = Cliente(self.db).obter(c.cliente_id)
+                novo.append(
+                    sc.ComandaCliente(comanda=c, cliente=cliente)
+                )
+        return novo
+
+    @obterObjeto
+    def fechar(self, id, data=None, obj=None):
+        obj.dataFechamento = datetime.now() if not data else data
+        return obj
     
-    def atualizarValor(self, id):
-        obj = self.obter(id)
-        if obj is None:
-            raise HTTPException(status_code=404, detail="Objeto não encontrado!")
+    @obterObjeto
+    def reabrir(self, id, data=None,obj=None):
+        obj.dataFechamento = None
+        return obj
+    
+    @buscaObjeto
+    def atualizarValor(self, id, obj=None):
         atvs = self.db.query(md.Atividade).filter(md.Atividade.comanda_id == id).all()
         valorTotal = sum([atv.preco for atv in atvs])
         obj.valorTotal = valorTotal

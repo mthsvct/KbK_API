@@ -21,7 +21,7 @@ def listarSalarios(
 @router.get("/{id}", response_model=sc.Salario)
 def obterSalario(
         id:int,
-        funcionario:sc.Funcionario=Depends(obter_usuario_logado),
+        f:sc.Funcionario=Depends(obter_usuario_logado),
         db:Session=Depends(get_db)
     ):
     s = rp.Salario(db).obter(id)
@@ -56,3 +56,12 @@ def deleteSalario(
         db:Session=Depends(get_db)
     ):
     return rp.Salario(db).remover(id)
+
+
+@router.get("/funcionario/{idFuncionario}")
+def obterSalarioFuncionario(
+        idFuncionario:int,
+        f:sc.Funcionario=Depends(obter_usuario_logado),
+        db:Session=Depends(get_db)
+    ):
+    return rp.Salario(db).obterSalarioFuncionario(idFuncionario)

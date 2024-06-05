@@ -15,7 +15,7 @@ def listarComandas(f:sc.Funcionario=Depends(obter_usuario_logado), db:Session=De
     return rp.Comanda(db).listar()
 
 
-@router.get("/{id}", response_model=sc.Comanda)
+@router.get("/one/{id}", response_model=sc.Comanda)
 def obterComanda(id:int, f:sc.Funcionario=Depends(obter_usuario_logado), db:Session=Depends(get_db)):
     if (c:=rp.Comanda(db).obter(id)) is None:
         raise HTTPException(status_code=404, detail="Comanda não encontrada!")
@@ -27,7 +27,7 @@ def criarComanda(c:sc.Comanda,f:sc.Funcionario=Depends(obter_usuario_logado),db:
     return rp.Comanda(db).criar(c)
 
 
-@router.put("/{id}", response_model=sc.Comanda)
+@router.put("/one/{id}", response_model=sc.Comanda)
 def editarComanda(id:int, c:sc.Comanda, f:sc.Funcionario=Depends(obter_usuario_logado), db:Session=Depends(get_db)):
     return rp.Comanda(db).editar(id, c)
 
@@ -41,5 +41,28 @@ def deleteComanda(
     return rp.Comanda(db).remover(id)
 
 
+@router.get("/abertas", response_model=List[sc.ComandaCliente])
+def listarComandasAbertas(
+        f:sc.Funcionario=Depends(obter_usuario_logado), 
+        db:Session=Depends(get_db)
+    ):
+    return rp.Comanda(db).abertas()
 
 
+@router.put("/fechar/{id}", response_model=sc.Comanda)
+def fecharComanda(
+        id:int, 
+        f:sc.Funcionario=Depends(obter_usuario_logado), 
+        db:Session=Depends(get_db)
+    ):
+    return rp.Comanda(db).fechar(id)
+
+
+
+@router.put("/reabrir/{id}", response_model=sc.Comanda)
+def reabrirComanda(
+        id:int, 
+        f:sc.Funcionario=Depends(obter_usuario_logado), 
+        db:Session=Depends(get_db)
+    ):
+    return rp.Comanda(db).reabrir(id)

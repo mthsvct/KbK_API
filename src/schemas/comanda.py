@@ -10,6 +10,7 @@ class ComandaSimples(BaseModel):
 
     id : Optional[int]
     data : datetime
+    dataFechamento: Optional[datetime] = None
     statusPagamento: Optional[str] = "PENDENTE" # PENDENTE, PAGO, PARCIAL
     valorTotal: Optional[float] = 0.0
     cliente_id : Optional[int]
