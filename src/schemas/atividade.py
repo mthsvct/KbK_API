@@ -18,6 +18,19 @@ class AtividadeSimples(BaseModel):
     class Config: orm_mode = True
 
 
+class AtividadeSimplesSrv(BaseModel):
+
+    id : Optional[int]
+    preco : float
+    comanda_id : int
+    funcionario_id : int
+    servico_id : int
+    
+    servico : Optional[Servico]
+    
+    class Config: orm_mode = True
+
+
 class Atividade(BaseModel):
 
     id : Optional[int]

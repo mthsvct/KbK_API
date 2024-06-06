@@ -14,7 +14,7 @@ class Comanda(Repo):
         super().__init__(db, md.Comanda)
 
 
-    def abertas(self):
+    def abertas(self, qnt:int=None):
         novo = []
         for c in self.listar():
             if c.dataFechamento is None:
@@ -22,7 +22,29 @@ class Comanda(Repo):
                 novo.append(
                     sc.ComandaCliente(comanda=c, cliente=cliente)
                 )
+        if (qnt is not None) and (len(novo) >= qnt):
+            return novo[:qnt]
         return novo
+    
+
+    def fechadas(self, qnt:int=None):
+        novo = []
+        for c in self.listar():
+            if c.dataFechamento is not None:
+                cliente = Cliente(self.db).obter(c.cliente_id)
+                novo.append(
+                    sc.ComandaCliente(comanda=c, cliente=cliente)
+                )
+        if (qnt is not None) and (len(novo) >= qnt):
+            return novo[:qnt]
+        return novo
+    
+    
+    def abertas_fechadas(self):
+        abertas = self.abertas(qnt=4)
+        fechadas = self.fechadas(qnt=4)
+        return sc.AbertasFechadas(abertas=abertas, fechadas=fechadas)
+
 
     @obterObjeto
     def fechar(self, id, data=None, obj=None):
